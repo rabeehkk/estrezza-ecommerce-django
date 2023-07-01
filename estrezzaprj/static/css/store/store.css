@@ -1,0 +1,37 @@
+
+.title{
+    color: #070707;
+}
+
+.icon-control{
+    color: grey;
+}
+.list-menu li a:hover{
+    color: #070707;
+    font-weight: 600;
+
+}
+.product-title a:hover{
+    color: #070707;
+    font-weight: 600;
+}
+.apply-button{
+    color: #070707;
+    background-color:#ffffff;
+    outline: 1px solid #070707;
+
+}
+.apply-button:hover{
+    background-color: #070707;
+    color: #ffffff;
+
+}
+.add-to-cart-button{
+    outline: 1px solid #070707;
+    background-color: #070707;
+    color: #ffffff;
+}
+.add-to-cart-button:hover{
+   color: #070707;
+   background-color:#ffffff;
+}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/userlogin.css' %}">
+{% endblock custom_css %}
+
+{% block content %}
+
+<div class="custom-body">
+    <div class="box new1">
+        <div class="container login-form new2">
+            <div class="top new3">
+                <div class="logo new4">
+                    <img src="{% static 'images/logo white for login.png' %}" alt="Logo">
+                </div>
+                <span>Have an account?</span>
+                <header>Login</header>
+            </div>
+
+            <form action="/login/" method="post">
+                <div class="input-field new5">
+                    <input type="email" class="input new6" placeholder="Email Address" id="email" name="email">
+                    <i class='bx bx-user'></i>
+                </div>
+
+                <div class="input-field new5">
+                    <input type="password" class="input new6" placeholder="Password" id="password" name="password">
+                    <i class='bx bx-lock-alt'></i>
+                </div>
+
+                <div class="input-field new5">
+                    <input type="submit" class="submit new7" value="Login" id="login-button">
+                </div>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#" class="forgot-password-link">Forgot Password?</a>
+                <a href="#" class="otp-login">Login Using OTP</a>
+            </div>
+
+            <div class="signup">
+                <span>Don't have an account?</span>
+                <a href="#" class="signup-link">Sign up</a>
+            </div>
+        </div>
+    </div>
+</div>  
+
+{% endblock content %}
+
