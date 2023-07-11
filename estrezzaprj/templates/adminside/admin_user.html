@@ -1,0 +1,62 @@
+{% extends 'adminside/admin_base.html' %}
+
+{% load static %}
+   
+    {% block admin_page_contents %}
+
+    <h2>Users</h2>
+    <p>Users signed up with us are shown here</p>
+    <br>
+    {% include 'includes/alerts.html' %}
+    <br>
+
+    <div class="container-fluid">
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">EMAIL</th>
+                <th scope="col">FIRST NAME</th>
+                <th scope="col">USERNAME</th>
+                <th scope="col">PHONE NUMBER</th>
+                <th scope="col">IS ACTIVE</th>
+                <th scope="col">ACTION</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for account_object in account_object %}
+
+              <tr>
+                <td>{{ account_object.email }}</td>
+                <td>{{ account_object.first_name }}</td>
+                <td>{{ account_object.username }}</td>
+                <td>{{ account_object.phone_number }}</td>
+                <!-- check marks or cross mark considerig if user is active or not-->
+                <td>{% if account_object.is_active %}
+                  <i class="fa-solid fa-check"></i>
+                  {% else %}
+                  <i class="fa-solid fa-xmark"></i> 
+                  {% endif %}
+              </td>
+              <!-- block or unblock button shown only considerig if user is active or not-->
+                <td>
+                  {% if account_object.is_active %}
+                    <a href="{% url 'block_user' account_object.id %}"><button type="button" class="btn btn-danger" style="font-size: 10px;">BLOCK</button></a>
+                  {% else %}
+                    <a href="{% url 'unblock_user' account_object.id %}"><button type="button" class="btn btn-success" style="font-size: 10px;">UNBLOCK</button></a>
+                  {% endif %}
+        
+                    
+                </td>
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>
+
+
+
+
+
+    {% endblock%}

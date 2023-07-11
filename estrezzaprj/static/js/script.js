@@ -58,3 +58,7 @@ $(document).ready(function() {
 }); 
 // jquery end
 
+// jquery for automatically turning off registration successful button 
+setTimeout(function(){
+    $('#message').fadeOut('slow')
+}, 4000)

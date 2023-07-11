@@ -1,0 +1,50 @@
+{% extends 'adminside/admin_base.html' %}
+   
+    {% block admin_page_contents %}
+
+    <h2>Products</h2>
+    <p>The list of products available are shown here</p>
+    <br>
+    {% include 'includes/alerts.html' %}
+    <br>
+
+
+    <div class="container-fluid">
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">PRODUCT NAME</th>
+                <th scope="col">PRICE</th>
+                <th scope="col">SLUG</th>
+                <th scope="col">IMAGES</th>
+                <th scope="col">ACTION</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {% for product_object in product_object %}
+              <tr>
+                
+                <td>{{ product_object.product_name }}</td>
+                <td>{{ product_object.price }}</td>
+                <td>{{ product_object.slug }}</td>
+                <td>
+                  <img src="{{ product_object.images.url }}" alt="" style="width: 40px; background-color: #ffffff;">
+                </td>
+                <td>
+                    <a href="{% url 'edit_product' product_object.id %}"><button type="button" class="btn btn-dark" style="font-size: 10px;">EDIT</button></a>
+                    <a href="{% url 'delete_product' product_object.id %}"><button type="button" class="btn btn-danger" style="font-size: 10px;">DELETE</button></a>
+                </td>
+              </tr>
+
+              {% endfor %}
+            </tbody>
+          </table>
+          <a href="{% url 'add_product' %}"><button type="button" class="btn btn-dark" style="font-size: 14px;">ADD MORE PRODUCTS +</button></a>
+    </div>
+
+
+
+
+
+    {% endblock%}

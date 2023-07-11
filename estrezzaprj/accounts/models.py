@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import User
+from django.conf import settings
+
+
 
 # Create your models here.
 
@@ -16,6 +20,7 @@ class MyAccountManager(BaseUserManager):
             username = username,
             first_name = first_name,
             last_name = last_name,
+            is_active= True
         )
         
         user.set_password(password)
@@ -49,7 +54,7 @@ class Account(AbstractBaseUser):
     last_name= models.CharField(max_length=50)
     username= models.CharField(max_length=50,unique=True)
     email= models.EmailField(max_length=100, unique=True)
-    phone_number = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=50, blank=False)
     
     # required fields
     
@@ -59,11 +64,12 @@ class Account(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     is_superadmin = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username','first_name','last_name']
     
-    object = MyAccountManager()
+    objects = MyAccountManager()
     
     def __str__(self):
         return self.email
@@ -74,6 +80,4 @@ class Account(AbstractBaseUser):
     
     def has_module_perms(self, add_label):
         return True
-    
-    
     

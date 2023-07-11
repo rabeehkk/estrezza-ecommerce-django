@@ -3,6 +3,7 @@
 
 {% block custom_css %}
 <link rel="stylesheet" href="{% static 'css/store/product_detail.css' %}">
+
 {% endblock %}
 
 {% block content %}
@@ -18,69 +19,64 @@
             <aside class="col-md-6">
     <article class="gallery-wrap"> 
         <div class="img-big-wrap">
-           <a href="#"><img src="{{single_product.images.url}}"></a>
+           <a href="#"><img src="{{single_product.images.url}}" class="prodcut_img"></a>
         </div> <!-- img-big-wrap.// -->
         
     </article> <!-- gallery-wrap .end// -->
             </aside>
             <main class="col-md-6 border-left">
-    <article class="content-body">
+
+  <!-- using these in form for varients-->
+
+  <form action='{% url 'add_cart' single_product.id %}' method ="POST">
     
-    <h2 class="title">{{single_product.product_name}}</h2>
-    
-    <div class="mb-3"> 
-        <var class="price h4">₹{{single_product.price}}</var> 
-    </div> 
-    
-    <p>{{single_product.description}}</p>
-    
-    
-    <hr>
-        <div class="row">
-            <div class="item-option-select">
-                <h6>Choose Color</h6>
-                <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-light">
-                    <input type="radio" name="radio_color"> Silver
-                  </label>
-                  <label class="btn btn-light">
-                    <input type="radio" name="radio_color" > Gray
-                  </label>
-                  <label class="btn btn-light active">
-                    <input type="radio" name="radio_color checked"> Gold
-                  </label>
-                  <label class="btn btn-light">
-                    <input type="radio" name="radio_color"> Black
-                  </label>
-                </div> 
-            </div>
-        </div> <!-- row.// -->
-        <div class="row">
-            <div class="item-option-select">
-                <h6>Select Size</h6>
-                <div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-light">
-                    <input type="radio" name="radio_color"> S
-                  </label>
-                  <label class="btn btn-light active">
-                    <input type="radio" name="radio_color" checked> M
-                  </label>
-                  <label class="btn btn-light">
-                    <input type="radio" name="radio_color"> L
-                  </label>
-                  <label class="btn btn-light">
-                    <input type="radio" name="radio_color"> XL
-                  </label>
-                </div> 
-            </div>
-        </div> <!-- row.// -->
-        <hr>
-        {% if single_product.stock < 1 %}
-          <h6 style="color:red">Product Out Of Stock !!</h6>
-        {% else %}
-          <a href="./product-detail.html" class="btn add-to-cart-button"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
-        {% endif %}
-    </article> <!-- product-info-aside .// -->
+    {% csrf_token %}
+
+      <article class="content-body">
+      
+      <h2 class="title">{{single_product.product_name}}</h2>
+      
+      <div class="mb-3"> 
+          <var class="price h4">₹{{single_product.price}}</var> 
+      </div> 
+      
+      <p>{{single_product.description}}</p>
+      
+      
+      <hr>
+          <div class="row">
+              <div class="item-option-select">
+                  <h6>Choose Color</h6>
+                  <select name="color" id="" class="form-control" required> 
+                    <option values="" disabled selected>Select</option>
+                    {% for i in single_product.variation_set.colors  %} <!-- set.colors: colors is a function from variation manager (we defined it in store/models)-->
+                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                    {% endfor %}
+                  </select> 
+              </div>
+          </div> <!-- row.// -->
+          <div class="row">
+              <div class="item-option-select">
+                  <h6>Select Size</h6>
+                  <select name="size" id="" class="form-control">
+                    <option values="" disabled selected>Select</option>
+                    {% for i in single_product.variation_set.sizes  %} <!-- set.colors: colors is a function from variation manager (we defined it in store/models)-->
+                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                    {% endfor %}
+                    
+                  </select> 
+                  
+              </div>
+          </div> <!-- row.// -->
+          <hr>
+          {% if single_product.stock < 1 %}
+            <h6 style="color:rgb(163, 0, 0)">Product Out Of Stock !!</h6>
+          {% else %}
+            <button type="submit" class="btn add-to-cart-button"> <span class="text">Add to cart</span> <i class="fa fa-shopping-cart" style="color: #ffffff;"></i>  </button>
+          {% endif %}
+      </article> <!-- product-info-aside .// -->
+  </form>
+
             </main> <!-- col.// -->
         </div> <!-- row.// -->
     </div> <!-- card.// -->
@@ -98,18 +94,16 @@
     
         <article class="box mb-3">
             <div class="icontext w-100">
-                <img src="{% static './images/avatars/avatar1.jpg' %}" class="img-xs icon rounded-circle">
+                <img src="{% static './images/avatars/rabi_avatar.jpg' %}" class="img-xs icon rounded-circle">
                 <div class="text">
-                    <span class="date text-muted float-md-right">24.04.2020 </span>  
-                    <h6 class="mb-1">Mike John </h6>
+                    <span class="date text-muted float-md-right">21-08-2023</span>  
+                    <h6 class="mb-1">Rabi / Review keng! </h6>
                     
                 </div>
             </div> <!-- icontext.// -->
             <div class="mt-3">
                 <p>
-                    Dummy comment Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    Mone poli sannam ! Venel vedicha mathi
                 </p>	
             </div>
         </article>

@@ -1,4 +1,48 @@
 {% load static %}
+<style>
+    
+.top-logo{
+    width: 80%;
+}
+.all-category-button{
+    background-color: #070707;
+    color: #ffffff;
+}
+.all-category-button:hover{
+    background-color:  #ffffff;
+    color:#070707;
+    outline: #070707 solid 1px;
+}
+.store-button{
+    background-color:  #ffffff;
+    color:#070707;
+    outline: #070707 solid 1px;
+}
+.store-button:hover{
+    background-color: #070707;
+    color: #ffffff;
+}
+.search-button{
+    background-color: #070707;
+    color: #ffffff;
+
+}
+.search-button:hover{
+    background-color: #ffffff;
+    color: #070707;
+    outline: #070707 solid 1px;
+
+}
+.signin-register a:hover{
+    color: #070707;
+}
+i.fa.fa-shopping-cart {
+    color: #070707;
+}
+i.fa.fa-shopping-cart:hover{
+    color: #616b6E;
+}
+</style>
 
 <header class="section-header">
     <nav class="navbar p-md-0 navbar-expand-sm navbar-light border-bottom">
@@ -47,9 +91,9 @@
         </div> <!-- col.// -->
         <a href="{% url 'store' %}" class="btn store-button">Store</a>
         <div class="col-lg  col-md-6 col-sm-12 col">
-            <form action="#" class="search">
+            <form action="{% url 'search' %}" class="search" method= 'GET'>
                 <div class="input-group w-100">
-                    <input type="text" class="form-control" style="width:60%;" placeholder="Search">
+                    <input type="text" class="form-control" style="width:60%;" placeholder="Search" name="keyword">
                     
                     <div class="input-group-append">
                       <button class="btn search-button" type="submit">
@@ -61,16 +105,32 @@
         </div> <!-- col.// -->
         <div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
                     <div class="d-flex justify-content-end mb-3 mb-lg-0">
+                        <!-- to show the logout/login by checking if user is logged in -->
+                        {% if user.is_authenticated %}
+                        <div class="widget-header">
+                            <small class="title text-muted">Welcome {{user.first_name}}! </small>
+                            <div class="signin-register"> 
+                                <a href="#">Dashboard</a> <span class="dark-transp"> | </span>
+                                <a href="{% url 'logout' %}"> Logout</a>
+                            </div>
+                        </div>
+                        
+                        {% else %}
                         <div class="widget-header">
                             <small class="title text-muted">Welcome guest!</small>
                             <div class="signin-register"> 
                                 <a href="{% url 'login' %}">Sign in</a> <span class="dark-transp"> | </span>
-                                <a href="./register.html"> Register</a>
+                                <a href="{% url 'register' %}"> Register</a>
                             </div>
                         </div>
-                        <a href="./cart.html" class="widget-header pl-3 ml-3">
+                        
+
+                        {% endif %}
+
+
+                        <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
                             <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div>
-                            <span class="badge badge-pill badge-danger notify">0</span>
+                            <span class="badge badge-pill badge-danger notify">{{cart_count}}</span>
                         </a>
                     </div> <!-- widgets-wrap.// -->
                 </div> <!-- col.// -->

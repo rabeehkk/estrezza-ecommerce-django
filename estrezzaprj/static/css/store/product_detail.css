@@ -1,3 +1,4 @@
+
 .add-to-cart-button{
     background-color: #070707;
     color: white;
@@ -8,4 +9,12 @@
     outline: 1px solid #070707;
    transform: scale(1.1);
    box-shadow: 5px 5px #070707;
+}
+.visit-store-button{
+    outline: 1px solid #070707 ;
+    color: #070707;
+}
+.visit-store-button:hover{
+    color: #ffffff;
+    background-color: #070707;
 }

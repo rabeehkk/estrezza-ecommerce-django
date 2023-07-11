@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap');
+
+.custom-body {
+    font-family: 'poppins', sans-serif
+}
+
+.new1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+.new2 {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+   
+}
+
+.login-form {
+    border-radius: 30px;
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+    background-color: rgba(7, 7, 7, 0.9);
+    
+}
+
+.new3 span {
+    color: #fff;
+    font-size: small;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 10px 0;
+}
+
+.new3 header {
+    color: #fff;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+/* to add this in widget attributes */
+.new6 {
+    height: 45px;
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 15px;
+    padding-left: 11px;
+    background: rgba(255, 255, 255, 0.9);
+    outline: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.new5 i {
+    position: relative;
+    top: -33px;
+    left: 17px;
+    color: #fff;
+}
+
+::-webkit-input-placeholder {
+    color: #fff;
+}
+
+.new7 {
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+    height: 45px;
+    outline: none;
+    width: 100%;
+    color: black;
+    background: rgba(255, 255, 255, 0.874);
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.new7:hover {
+    box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+}
+
+.forgot-password {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.otp-login {
+    color: #fff;
+    font-size: small;
+    text-decoration: none;
+}
+
+.forgot-password .forgot-password-link {
+    color: #fff;
+    font-size: small;
+    text-decoration: none;
+}
+
+.signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.signup span {
+    color: #fff;
+    font-size: small;
+}
+
+.signup a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.signup .signup-link:hover {
+    text-decoration: underline;
+}
+
+.new4 {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.new4 img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}

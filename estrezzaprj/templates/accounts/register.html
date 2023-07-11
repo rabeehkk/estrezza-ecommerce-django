@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block custom_css %}
+
+<link rel="stylesheet" href="{% static 'css/accounts/register.css' %}">
+
+{% endblock  %}
+
+{% block content %}
+
+<div class="custom-body">
+    
+    <div class="box new1" style="background-image: url('{% static 'images/blackwomen2.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="container login-form new2">
+
+          
+            <div class="top new3">
+                <div class="logo new4">
+                    <img src="{% static 'images/logo white for login.png' %}" alt="Logo">
+                </div>
+                <span>Don't have an account?</span>
+                <header>Sign Up</header>
+            </div>
+
+            <form action="{% url 'register' %}" method="post">
+                {% csrf_token %}
+                <div class="input-field new5">
+                    {{form.first_name}}
+                </div>
+
+                <div class="input-field new5">
+                    {{form.last_name}}
+                </div>
+
+                <div class="input-field new5">
+                    {{form.email}}
+                </div>
+
+                <div class="input-field new5">
+                    {{form.phone_number}}
+                </div>
+
+                <div class="input-field new5">
+                    {{form.password}}
+                </div>
+
+                <div class="input-field new5">
+                    {{form.confirm_password}}
+                </div>
+
+                <div class="input-field new5">
+                    <input type="submit" class="submit new7" value="Sign Up" id="signup-button">
+                </div>
+
+                <!-- Lets throw some error messages-->
+      
+                {% if form.confirm_password.errors %}
+                <ul class="error-messages">
+                    {% for error in form.confirm_password.errors %}
+                        <li style="color: #BB0000; font-size: 13px;">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% if form.email.errors %}
+                <ul class="error-messages">
+                    {% for error in form.email.errors %}
+                        <li style="color: #BB0000; font-size: 13px;">{{ error }}</li>
+                    {% endfor %}
+                </ul>   
+{% endif %}
+
+
+
+
+            </form>
+
+            <div class="forgot-password">
+                <a href="#" class="forgot-password-link">Forgot Password?</a>
+            </div>
+
+            <div class="signup">
+                <span>Already have an account?</span>
+                <a href="{% url 'login' %}" class="signup-link">Sign in</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

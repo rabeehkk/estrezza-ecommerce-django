@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block custom_css %}
+    <!-- add your css files here-->
+	<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock custom_css %}
 {% block content %}
 
 
@@ -9,7 +13,7 @@
 <div class="container">
 
 <div class="intro-banner-wrap">
-	<video src="{% static 'images/banners/banner_video.mp4' %}" autoplay loop class="img-fluid rounded">
+	<video src="{% static 'images/banners/banner_video.mp4' %}" autoplay loop class="img-fluid rounded" style="width: 60%;">
 </div>
 
 </div> <!-- container //  -->

@@ -1,6 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from store.models import  Product
+from accounts.models import Account
+
+from django.contrib.auth import authenticate
 
 
 # my views
@@ -13,6 +16,3 @@ def home(request):
     }
     
     return render(request, 'home.html',context)
-
-def userlogin(request):
-    return render(request, 'userlogin.html')

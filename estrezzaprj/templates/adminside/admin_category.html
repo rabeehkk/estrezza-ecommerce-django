@@ -1,0 +1,49 @@
+{% extends 'adminside/admin_base.html' %}
+   
+    {% block admin_page_contents %}
+
+    <h2>Categories</h2>
+    <p>The available categories are listed  here</p>
+    <br>
+    {% include 'includes/alerts.html' %}
+    <br>
+
+    <div class="container-fluid">
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">CATEGORY NAME</th>
+                <th scope="col">SLUG</th>
+                <th scope="col">CATEGORY IMAGE</th>
+                <th scope="col">ACTION</th>
+           
+
+              </tr>
+            </thead>
+            <tbody>
+          {% for category_object in category_object %}
+
+              <tr>
+                <td>{{ category_object.category_name }}</td>
+                <td>{{ category_object.slug }}</td>
+                <td>
+                  <img src="{{ category_object.cat_image.url }}" alt="" style="width: 40px; background-color: #ffffff;" >
+                </td>
+                <td>
+                    <a href="{% url 'edit_category' category_object.id %}"><button type="button" class="btn btn-dark" style="font-size: 10px;">EDIT</button></a>
+                    <a href="{% url 'delete_category' category_object.id %}"><button type="button" class="btn btn-danger" style="font-size: 10px;">DELETE</button></a>
+                </td>
+
+              </tr>
+
+          {% endfor %}
+            </tbody>
+          </table>
+          <a href="{% url 'add_category' %}"><button type="button" class="btn btn-dark" style="font-size: 14px;">ADD MORE CATEGORIES +</button></a>
+    </div>
+
+
+
+
+
+    {% endblock%}
