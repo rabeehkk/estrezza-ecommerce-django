@@ -81,3 +81,5 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, add_label):
         return True
     
+# class Userprofile(models.Model):
+#     user = models.OneToOneField(Account) #we only want one profile for one user so we use this one to one field so it wil be unique 

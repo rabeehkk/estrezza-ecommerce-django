@@ -1,0 +1,19 @@
+.list-group a{
+    color: #070707;
+
+}
+.track-order{
+    outline: 1px solid #070707;
+    color: #070707;
+}
+.track-order:hover{
+    color: #ffffff;
+    background-color: #070707;
+}
+.details-button{
+    color: #ffffff;
+    background-color: #070707;
+}
+.details-button:hover{
+    color: #ffffff;
+}

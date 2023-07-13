@@ -5,6 +5,9 @@ from django.contrib import messages,auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from . import verify
+from carts.models import *
+from carts.views import _cart_id
+import requests
 
 # Create your views here.
 
@@ -56,8 +59,74 @@ def login(request):
         user = auth.authenticate(email=email, password=password)
         
         if user is not None:
+            try:
+                cart = Cart.objects.get(cart_id = _cart_id(request))
+                # is_cart_item_exits returns a true or false value, by checking if the same cart item is there or not
+                is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()
+                if is_cart_item_exists:
+                    cart_item = CartItem.objects.filter(cart=cart)
+                    
+                    # getting product variations by cart id
+                    product_variation = []
+                    for item in cart_item:
+                        variation = item.variations.all()
+                        product_variation.append(list(variation))
+                    
+                    #  no we will get cart items from user to access his products variation
+                    
+                    cart_item = CartItem.objects.filter(user=user)
+
+                    ex_var_list = []
+                    id = []
+
+                    for item in cart_item:
+                        existing_variation = item.variations.all()
+                        ex_var_list.append(list(existing_variation))
+                        id.append(item.id)
+                            
+                    # product_variation = [1,2,3,4,6]
+                    # ex_var_list = [4,6,3,5]
+                    
+                    #  we need to get common product variation
+                    
+                    for pr in product_variation:
+                        if pr in ex_var_list:
+                            index = ex_var_list.index(pr)
+                            item_id = id[index]
+                            item = CartItem.objects.get(id = item_id)
+                            item.quantity+=1
+                            item.user= user
+                            item.save()
+                        else:
+                            cart_item= CartItem.objects.filter(cart=cart)
+                            for item in cart_item:
+                                item.user = user
+                                item.save()
+                            
+                    
+                    
+            except:
+                pass
+            
             auth.login(request, user)
-            return redirect('home')
+            messages.success(request, 'You are now logged in.')
+            
+            url = request.META.get('HTTP_REFERER')
+            # HTTP REFERER will grab the previous url from where you came
+            try:
+                query = requests.utils.urlparse(url).query
+                print('query   :  ', query)
+                print('---------------------')
+                # next=cart/checkout/
+                params = dict(x.split('=') for x in query.split('&'))
+                print('params   :  ', params)
+                if 'next' in params:
+                    nextPage = params['next']
+                    return redirect(nextPage)
+            except:
+                return redirect('dashboard')
+            
+            
         else:
             messages.warning(request, 'Invalid login credentials')
         
@@ -72,12 +141,16 @@ def logout(request):
 # OTP VERIFICATION:
 
 def otp_mobilenumber(request):
+    global mobile_number_for_otp
     
     if request.method == 'POST':
         
         # setting this mobile number as global variable so i can access it in another view (to verify)
-        global mobile_number_for_otp
+        
         mobile_number_for_otp = request.POST.get('phone_number')
+        if mobile_number_for_otp is '':
+            messages.warning(request, 'You must enter a mobile number')
+            return redirect('otp_mobilenumber')
         
         # instead we can also do this by savig this mobile number to session and
         # access it in verify otp:
@@ -91,6 +164,8 @@ def otp_mobilenumber(request):
             return redirect('enter_otp')
         else:
             messages.warning(request,'Mobile number doesnt exist')
+    else:
+        pass
       
         
     return render(request, 'accounts/otp_mobilenumber.html')
@@ -110,3 +185,77 @@ def enter_otp(request):
         
     
     return render(request,'accounts/enter_otp.html')
+
+@login_required(login_url='login')
+def dashboard(request):
+    return render(request, 'accounts/dashboard.html')
+# 
+# 
+def forgotPassword(request):
+    global mobile_number_forgotPassword
+    if request.method == 'POST':
+        
+        # setting this mobile number as global variable so i can access it in another view (to verify)
+        mobile_number_forgotPassword = request.POST.get('phone_number')
+        
+        # checking the null case
+        if mobile_number_forgotPassword is '':
+            messages.warning(request, 'You must enter a mobile number')
+            return redirect('forgotPassword')
+   
+        # instead we can also do this by savig this mobile number to session and
+        # access it in verify otp:
+        # request.session['mobile']= mobile_number
+        
+        
+        user = Account.objects.filter(phone_number=mobile_number_forgotPassword)
+            
+        if user:  #if user exists
+            verify.send('+91' + str(mobile_number_forgotPassword))
+            return redirect('forgotPassword_otp')
+        else:
+            messages.warning(request,'Mobile number doesnt exist')
+            return redirect('forgotPassword')
+            
+    return render(request, 'accounts/forgotPassword.html')
+
+def forgotPassword_otp(request):
+    mobile_number = mobile_number_forgotPassword
+    
+    if request.method == 'POST':
+        
+        otp = request.POST.get('otp')
+        if verify.check('+91'+ str(mobile_number), otp):
+            user = Account.objects.get(phone_number=mobile_number)
+            if user:
+                return redirect('resetPassword')
+        else:
+            messages.warning(request,'Invalid OTP')
+            return redirect('enter_otp')
+        
+    return render(request,'accounts/forgotPassword_otp.html')
+
+def resetPassword(request):
+    mobile_number = mobile_number_forgotPassword
+    
+    if request.method == 'POST':
+        password1 = request.POST.get('password')
+        password2 = request.POST.get('confirm_password')    
+        print(str(password1)+' '+str(password2)) #checking
+        
+        if password1 == password2:
+            user = Account.objects.get(phone_number=mobile_number)
+            print(user)
+            print('old password  : ' +str(user.password))
+            
+            user.set_password(password1)
+            user.save()
+
+            print('new password  : ' +str(user.password))
+            messages.success(request, 'Password changed successfully')
+            return redirect('login')
+        else:
+            messages.warning(request, 'Passwords doesnot match, Please try again')
+            return redirect('resetPassword')
+    
+    return render(request, 'accounts/resetPassword.html')
